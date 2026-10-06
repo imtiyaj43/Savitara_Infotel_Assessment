@@ -1,0 +1,40 @@
+# ==============================================================================
+# Savitara Infotel - Terraform Variable Values (Example)
+# Copy to terraform.tfvars or configure via GitHub Actions
+# ==============================================================================
+
+aws_region   = "us-east-1"
+project_name = "savitara"
+environment  = "dev"
+
+# Network Configuration
+vpc_cidr                 = "10.0.0.0/16"
+public_subnet_cidrs      = ["10.0.1.0/24", "10.0.2.0/24"]
+private_app_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
+private_db_subnet_cidrs  = ["10.0.21.0/24", "10.0.22.0/24"]
+single_nat_gateway       = true # Set false in production for multi-AZ NAT resilience
+
+# Compute Configuration
+instance_type          = "t3.micro"
+asg_min_size           = 2
+asg_max_size           = 4
+asg_desired_capacity   = 2
+target_cpu_utilization = 70.0
+
+# Database Configuration
+db_name           = "appdb"
+db_username       = "appadmin"
+db_instance_class = "db.t3.micro"
+db_multi_az       = false # Set true in production
+
+# Load Balancer & Security
+app_port               = 8080
+enable_alb_access_logs = true
+alb_log_retention_days = 30
+# acm_certificate_arn  = "arn:aws:acm:us-east-1:123456789012:certificate/xxx" # Optional: leave empty for self-signed test cert
+
+# GitHub CI/CD OIDC Integration
+create_github_oidc_role    = true
+create_oidc_provider       = true  # Set to false if your AWS account already has an OIDC provider for token.actions.githubusercontent.com
+# existing_oidc_provider_arn = "arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com" # Optional if create_oidc_provider = false
+github_repo                = "username/savitara-infotel-aws" # Replace with your GitHub user/repo

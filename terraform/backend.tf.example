@@ -1,0 +1,14 @@
+# ==============================================================================
+# Remote State Configuration (S3 + DynamoDB State Locking)
+# To enable: rename this file to backend.tf and fill in your bucket and table names
+# ==============================================================================
+
+# terraform {
+#   backend "s3" {
+#     bucket         = "savitara-terraform-state-ACCOUNT_ID"
+#     key            = "environments/dev/terraform.tfstate"
+#     region         = "us-east-1"
+#     dynamodb_table = "savitara-terraform-locks"
+#     encrypt        = true
+#   }
+# }

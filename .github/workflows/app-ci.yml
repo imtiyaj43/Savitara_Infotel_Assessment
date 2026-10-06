@@ -1,0 +1,47 @@
+name: "Application CI"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - '.github/workflows/app-ci.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - '.github/workflows/app-ci.yml'
+
+jobs:
+  test-and-lint:
+    name: "Node.js Test & Verification"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'app/package-lock.json'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Automated Unit Tests
+        run: npm test
+
+      - name: Test Docker Container Build
+        run: docker build -t savitara-app:test .

@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" width="100%" height="100%" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <style>
+      .title { font-size: 20px; font-weight: bold; fill: #ffffff; }
+      .subtitle { font-size: 12px; fill: #d1d5db; }
+      .box-label { font-size: 13px; font-weight: bold; fill: #1f2937; }
+      .sub-label { font-size: 11px; fill: #4b5563; }
+      .badge { font-size: 10px; font-weight: bold; fill: #ffffff; }
+      .flow-text { font-size: 11px; font-weight: 500; fill: #1e3a8a; }
+      .arrow { stroke: #2563eb; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-dashed { stroke: #6b7280; stroke-width: 1.5; stroke-dasharray: 4,4; fill: none; marker-end: url(#arrowhead-gray); }
+      .arrow-sec { stroke: #059669; stroke-width: 1.5; stroke-dasharray: 4,4; fill: none; marker-end: url(#arrowhead-green); }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2563eb" />
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#6b7280" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#059669" />
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1100" height="820" fill="#f8fafc" />
+
+  <!-- Top Banner -->
+  <rect width="1100" height="60" fill="#0f172a" />
+  <text x="25" y="32" class="title">Savitara Infotel – AWS Production Infrastructure Architecture</text>
+  <text x="25" y="49" class="subtitle">Multi-AZ High Availability • Zero-SSH • HTTPS / ACM • Auto Scaling • Secrets Manager • RDS MySQL</text>
+
+  <!-- AWS Cloud Boundary -->
+  <rect x="20" y="75" width="1060" height="725" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" />
+  <rect x="35" y="85" width="160" height="24" rx="4" fill="#0284c7" />
+  <text x="45" y="101" fill="#ffffff" font-size="12" font-weight="bold">AWS Cloud (us-east-1)</text>
+
+  <!-- Client / External Zone -->
+  <rect x="40" y="125" width="200" height="110" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" filter="url(#shadow)" />
+  <text x="55" y="148" class="box-label">End Users / Clients</text>
+  <text x="55" y="165" class="sub-label">• HTTPS Browser Traffic (443)</text>
+  <text x="55" y="180" class="sub-label">• HTTP Port 80 (301 Redirect)</text>
+  <rect x="55" y="195" width="170" height="24" rx="4" fill="#2563eb" />
+  <text x="65" y="211" fill="#ffffff" font-size="10" font-weight="bold">Internet Traffic</text>
+
+  <!-- GitHub Actions CI/CD -->
+  <rect x="40" y="255" width="200" height="130" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" filter="url(#shadow)" />
+  <text x="55" y="278" class="box-label">GitHub Actions CI/CD</text>
+  <text x="55" y="295" class="sub-label">• Automated Terraform Pipeline</text>
+  <text x="55" y="310" class="sub-label">• Lint, Validate, Trivy Scan</text>
+  <text x="55" y="325" class="sub-label">• GitHub OIDC WebIdentity</text>
+  <rect x="55" y="340" width="170" height="24" rx="4" fill="#1e293b" />
+  <text x="65" y="356" fill="#ffffff" font-size="10" font-weight="bold">OIDC Role Assumption</text>
+
+  <!-- VPC Boundary -->
+  <rect x="270" y="115" width="530" height="665" rx="10" fill="#f8fafc" stroke="#6366f1" stroke-width="2" />
+  <rect x="285" y="125" width="220" height="24" rx="4" fill="#6366f1" />
+  <text x="295" y="141" fill="#ffffff" font-size="12" font-weight="bold">VPC: 10.0.0.0/16 (Multi-AZ)</text>
+
+  <!-- Internet Gateway -->
+  <rect x="300" y="160" width="470" height="35" rx="6" fill="#e0e7ff" stroke="#818cf8" stroke-width="1" />
+  <text x="440" y="182" font-size="12" font-weight="bold" fill="#3730a3">Internet Gateway (IGW)</text>
+
+  <!-- Tier 1: Public Subnets -->
+  <rect x="290" y="210" width="490" height="155" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5" />
+  <text x="305" y="230" font-size="12" font-weight="bold" fill="#065f46">Tier 1: Public Subnets (ALB &amp; NAT Gateways)</text>
+
+  <!-- Public Subnet AZ1 -->
+  <rect x="305" y="240" width="225" height="110" rx="6" fill="#ffffff" stroke="#34d399" stroke-width="1" filter="url(#shadow)" />
+  <text x="315" y="258" font-size="11" font-weight="bold" fill="#047857">Subnet: 10.0.1.0/24 (us-east-1a)</text>
+  <text x="315" y="275" class="sub-label">ALB Listener (HTTPS 443 / HTTP 80)</text>
+  <text x="315" y="290" class="sub-label">NAT Gateway 1 (Static EIP)</text>
+  <rect x="315" y="305" width="100" height="20" rx="3" fill="#059669" />
+  <text x="325" y="319" class="badge">ACM TLS 1.3</text>
+
+  <!-- Public Subnet AZ2 -->
+  <rect x="540" y="240" width="225" height="110" rx="6" fill="#ffffff" stroke="#34d399" stroke-width="1" filter="url(#shadow)" />
+  <text x="550" y="258" font-size="11" font-weight="bold" fill="#047857">Subnet: 10.0.2.0/24 (us-east-1b)</text>
+  <text x="550" y="275" class="sub-label">ALB Listener (Multi-AZ Standby)</text>
+  <text x="550" y="290" class="sub-label">NAT Gateway 2 (Prod Optional)</text>
+  <rect x="550" y="305" width="110" height="20" rx="3" fill="#059669" />
+  <text x="560" y="319" class="badge">Health Check :8080</text>
+
+  <!-- Tier 2: Private Application Subnets -->
+  <rect x="290" y="380" width="490" height="180" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5" />
+  <text x="305" y="400" font-size="12" font-weight="bold" fill="#1e40af">Tier 2: Private Application Subnets (EC2 Auto Scaling Group)</text>
+
+  <!-- App Subnet AZ1 -->
+  <rect x="305" y="410" width="225" height="135" rx="6" fill="#ffffff" stroke="#60a5fa" stroke-width="1" filter="url(#shadow)" />
+  <text x="315" y="428" font-size="11" font-weight="bold" fill="#1d4ed8">Subnet: 10.0.11.0/24 (us-east-1a)</text>
+  <text x="315" y="445" class="sub-label">• EC2 Node 1 (Amazon Linux 2023)</text>
+  <text x="315" y="460" class="sub-label">• IMDSv2 Enforced, gp3 Encrypted</text>
+  <text x="315" y="475" class="sub-label">• Express API Service :8080</text>
+  <text x="315" y="490" class="sub-label">• IAM Instance Profile</text>
+  <rect x="315" y="505" width="130" height="20" rx="3" fill="#2563eb" />
+  <text x="323" y="519" class="badge">Zero SSH • SSM Only</text>
+
+  <!-- App Subnet AZ2 -->
+  <rect x="540" y="410" width="225" height="135" rx="6" fill="#ffffff" stroke="#60a5fa" stroke-width="1" filter="url(#shadow)" />
+  <text x="550" y="428" font-size="11" font-weight="bold" fill="#1d4ed8">Subnet: 10.0.12.0/24 (us-east-1b)</text>
+  <text x="550" y="445" class="sub-label">• EC2 Node 2 (Amazon Linux 2023)</text>
+  <text x="550" y="460" class="sub-label">• IMDSv2 Enforced, gp3 Encrypted</text>
+  <text x="550" y="475" class="sub-label">• Express API Service :8080</text>
+  <text x="550" y="490" class="sub-label">• Auto Scaling (Target Tracking 70%)</text>
+  <rect x="550" y="505" width="130" height="20" rx="3" fill="#2563eb" />
+  <text x="558" y="519" class="badge">Zero SSH • SSM Only</text>
+
+  <!-- Tier 3: Private Database Subnets -->
+  <rect x="290" y="575" width="490" height="185" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5" />
+  <text x="305" y="595" font-size="12" font-weight="bold" fill="#9a3412">Tier 3: Private Database Subnets (RDS MySQL - Fully Isolated)</text>
+
+  <!-- DB Subnet AZ1 -->
+  <rect x="305" y="605" width="225" height="140" rx="6" fill="#ffffff" stroke="#fb923c" stroke-width="1" filter="url(#shadow)" />
+  <text x="315" y="623" font-size="11" font-weight="bold" fill="#c2410c">Subnet: 10.0.21.0/24 (us-east-1a)</text>
+  <text x="315" y="640" class="sub-label">• Amazon RDS MySQL 8.0 Primary</text>
+  <text x="315" y="655" class="sub-label">• Inbound TCP 3306 (EC2-SG Only)</text>
+  <text x="315" y="670" class="sub-label">• KMS Storage Encrypted (gp3)</text>
+  <text x="315" y="685" class="sub-label">• Automated Backups &amp; Metrics</text>
+  <rect x="315" y="705" width="120" height="20" rx="3" fill="#ea580c" />
+  <text x="323" y="719" class="badge">Primary Instance</text>
+
+  <!-- DB Subnet AZ2 -->
+  <rect x="540" y="605" width="225" height="140" rx="6" fill="#ffffff" stroke="#fb923c" stroke-width="1" filter="url(#shadow)" />
+  <text x="550" y="623" font-size="11" font-weight="bold" fill="#c2410c">Subnet: 10.0.22.0/24 (us-east-1b)</text>
+  <text x="550" y="640" class="sub-label">• RDS Subnet Group Member</text>
+  <text x="550" y="655" class="sub-label">• Multi-AZ Standby (Sync Replication)</text>
+  <text x="550" y="670" class="sub-label">• Zero Internet / Zero NAT Route</text>
+  <text x="550" y="685" class="sub-label">• Isolated Routing Table</text>
+  <rect x="550" y="705" width="120" height="20" rx="3" fill="#ea580c" />
+  <text x="558" y="719" class="badge">Standby / Multi-AZ</text>
+
+  <!-- Right Side: AWS Managed Services -->
+  <rect x="825" y="115" width="235" height="665" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+  <text x="840" y="140" font-size="13" font-weight="bold" fill="#334155">AWS Supporting Services</text>
+
+  <!-- S3 Access Logs -->
+  <rect x="840" y="160" width="205" height="105" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)" />
+  <text x="850" y="180" font-size="11" font-weight="bold" fill="#0f172a">S3: ALB Access Logs</text>
+  <text x="850" y="196" class="sub-label">• BucketOwnerEnforced</text>
+  <text x="850" y="210" class="sub-label">• ELB Service Delivery Policy</text>
+  <text x="850" y="224" class="sub-label">• AES256 &amp; TLS Enforced</text>
+  <text x="850" y="238" class="sub-label">• 30-Day Auto Expiration</text>
+
+  <!-- S3 App Storage -->
+  <rect x="840" y="280" width="205" height="100" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)" />
+  <text x="850" y="300" font-size="11" font-weight="bold" fill="#0f172a">S3: App Data Storage</text>
+  <text x="850" y="316" class="sub-label">• Versioning Enabled</text>
+  <text x="850" y="330" class="sub-label">• Private Access Block</text>
+  <text x="850" y="344" class="sub-label">• EC2 Least-Privilege IAM</text>
+
+  <!-- AWS Secrets Manager -->
+  <rect x="840" y="395" width="205" height="110" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)" />
+  <text x="850" y="415" font-size="11" font-weight="bold" fill="#6d28d9">AWS Secrets Manager</text>
+  <text x="850" y="431" class="sub-label">• Dynamic RDS Credentials</text>
+  <text x="850" y="445" class="sub-label">• Auto Random Password</text>
+  <text x="850" y="459" class="sub-label">• JSON: host, user, pass, db</text>
+  <text x="850" y="473" class="sub-label">• Zero Plaintext in Git</text>
+
+  <!-- Systems Manager -->
+  <rect x="840" y="520" width="205" height="105" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)" />
+  <text x="850" y="540" font-size="11" font-weight="bold" fill="#0369a1">AWS Systems Manager</text>
+  <text x="850" y="556" class="sub-label">• SSM Session Manager</text>
+  <text x="850" y="570" class="sub-label">• AmazonSSMManagedInstanceCore</text>
+  <text x="850" y="584" class="sub-label">• Zero Inbound SSH (Port 22 closed)</text>
+  <text x="850" y="598" class="sub-label">• Audited Shell Sessions</text>
+
+  <!-- IAM & OIDC Provider -->
+  <rect x="840" y="640" width="205" height="120" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)" />
+  <text x="850" y="660" font-size="11" font-weight="bold" fill="#b45309">AWS IAM &amp; GitHub OIDC</text>
+  <text x="850" y="676" class="sub-label">• token.actions.githubusercontent</text>
+  <text x="850" y="690" class="sub-label">• Scoped AssumeRole Policy</text>
+  <text x="850" y="704" class="sub-label">• Zero Static Access Keys</text>
+  <text x="850" y="718" class="sub-label">• Least Privilege Boundary</text>
+
+  <!-- Flow Arrows -->
+  <path d="M 240 180 L 300 180" class="arrow" />
+  <path d="M 417 350 L 417 410" class="arrow" />
+  <path d="M 652 350 L 652 410" class="arrow" />
+  <path d="M 417 545 L 417 605" class="arrow" />
+  <path d="M 652 545 L 460 605" class="arrow" />
+  <path d="M 530 670 L 540 670" class="arrow-dashed" />
+  <path d="M 530 300 L 840 215" class="arrow-dashed" />
+  <path d="M 530 450 L 840 450" class="arrow-sec" />
+  <path d="M 530 480 L 840 330" class="arrow-sec" />
+  <path d="M 240 320 L 840 690" class="arrow-dashed" />
+</svg>
