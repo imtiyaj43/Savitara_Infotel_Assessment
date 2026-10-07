@@ -5,28 +5,28 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/**'
-      - '.github/workflows/terraform.yml'
+      - "terraform/**"
+      - ".github/workflows/terraform.yml"
   pull_request:
     branches:
       - main
     paths:
-      - 'terraform/**'
-      - '.github/workflows/terraform.yml'
+      - "terraform/**"
+      - ".github/workflows/terraform.yml"
   workflow_dispatch:
     inputs:
       target_environment:
-        description: 'Environment to plan/apply'
+        description: "Environment to plan/apply"
         required: true
-        default: 'dev'
+        default: "dev"
         type: choice
         options:
           - dev
           - prod
 
 permissions:
-  id-token: write   # Required for AWS OIDC authentication
-  contents: read    # Required to checkout repository code
+  id-token: write # Required for AWS OIDC authentication
+  contents: read # Required to checkout repository code
   pull-requests: write # Required to comment plan diff on PRs
 
 concurrency:
@@ -84,10 +84,10 @@ jobs:
       - name: Run Trivy Security Scanner (IaC)
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'config'
-          scan-ref: 'terraform/'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '0' # Non-blocking in evaluation pipeline, logs findings
+          scan-type: "config"
+          scan-ref: "terraform/"
+          severity: "CRITICAL,HIGH"
+          exit-code: "0" # Non-blocking in evaluation pipeline, logs findings
 
   # ============================================================================
   # Stage 3: Terraform Plan (Generates Speculative Plan)
@@ -222,9 +222,9 @@ jobs:
           ALB_URL=$(terraform output -raw application_url 2>/dev/null || echo "N/A")
           HEALTH_URL=$(terraform output -raw health_check_url 2>/dev/null || echo "N/A")
           RDS_ENDPOINT=$(terraform output -raw rds_endpoint 2>/dev/null || echo "N/A")
-          echo "### 🚀 Deployment Succeeded!" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Resource | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|---|---|" >> $GITHUB_STEP_SUMMARY
-          echo "| **HTTPS Application URL** | [$ALB_URL]($ALB_URL) |" >> $GITHUB_STEP_SUMMARY
-          echo "| **ALB Health Check URL** | [$HEALTH_URL]($HEALTH_URL) |" >> $GITHUB_STEP_SUMMARY
-          echo "| **RDS Endpoint** | \`$RDS_ENDPOINT\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Application URL | [$ALB_URL]($ALB_URL) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Health Check URL | [$HEALTH_URL]($HEALTH_URL) |" >> $GITHUB_STEP_SUMMARY
+          echo "| RDS Endpoint | \`$RDS_ENDPOINT\` |" >> $GITHUB_STEP_SUMMARY
